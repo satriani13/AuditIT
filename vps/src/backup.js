@@ -1,0 +1,14 @@
+import {DatabaseSync} from 'node:sqlite';
+import {mkdirSync,cpSync,existsSync} from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const data=path.resolve(process.env.DATA_DIR||path.join(root,'data'));
+if(!existsSync(path.join(data,'fieldbook.sqlite')))throw Error('No database to back up.');
+const output=path.resolve(root,'backups',new Date().toISOString().replace(/[:.]/g,'-'));
+mkdirSync(output,{recursive:true});
+const db=new DatabaseSync(path.join(data,'fieldbook.sqlite'));
+db.prepare('VACUUM INTO ?').run(path.join(output,'fieldbook.sqlite'));
+db.close();
+cpSync(path.join(data,'uploads'),path.join(output,'uploads'),{recursive:true});
+console.log('Backup saved to '+output+'. Run this command while the service is stopped to keep attachments consistent.');

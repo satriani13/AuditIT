@@ -1,0 +1,21 @@
+{
+  "name": "fieldbook-vps",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "test": "node --test test/*.test.js",
+    "backup": "node --env-file-if-exists=.env src/backup.js"
+  },
+  "dependencies": {
+    "docx": "^9.7.1",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "sharp": "^0.34.5",
+    "site-creator-vinext-starter": "file:.."
+  }
+}

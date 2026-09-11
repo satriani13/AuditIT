@@ -1,0 +1,22 @@
+[Unit]
+Description=Fieldbook IT audit workspace
+After=network.target
+
+[Service]
+Type=simple
+User=fieldbook
+Group=fieldbook
+WorkingDirectory=/opt/fieldbook
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node --env-file=/opt/fieldbook/.env /opt/fieldbook/src/server.js
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/fieldbook/data
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
